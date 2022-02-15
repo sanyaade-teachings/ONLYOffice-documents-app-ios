@@ -25,6 +25,7 @@ class ASCSignInViewController: ASCBaseViewController {
 
     private let facebookSignInController = ASCFacebookSignInController()
     private let googleSignInController = ASCGoogleSignInController()
+    private let twitterSignInController = ASCTwitterSignInController()
     
     // MARK: - Outlets
     
@@ -35,6 +36,7 @@ class ASCSignInViewController: ASCBaseViewController {
     @IBOutlet weak var forgotButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet weak var twitterButton: UIButton!
     @IBOutlet weak var loginByLabel: UILabel!
     
     // MARK: - Lifecycle Methods
