@@ -35,6 +35,7 @@ class ASCSignInViewController: ASCBaseViewController {
     @IBOutlet weak var forgotButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet weak var linkedinButton: UIButton!
     @IBOutlet weak var loginByLabel: UILabel!
     
     // MARK: - Lifecycle Methods
@@ -235,6 +236,49 @@ class ASCSignInViewController: ASCBaseViewController {
                 hud?.hide(animated: true)
             }
         }
+    }
+    
+    
+    @IBAction func onLinkedinLogin(_ sender: Any) {
+        view.endEditing(true)
+        
+        let oauth2VC = ASCConnectStorageOAuth2ViewController.instantiate(from: Storyboard.connectStorage)
+        let linkedinController = ASCLinkedinSignInController()
+        linkedinController.clientId = ASCConstants.Clouds.Linkedin.clientId
+        linkedinController.redirectUrl = ASCConstants.Clouds.Linkedin.redirectUri
+        oauth2VC.responseType = .code
+        oauth2VC.complation = { [weak self] info in
+            guard let self = self else { return }
+            if let accessToken = info["token"] as? String {
+                let authRequest = OnlyofficeAuthRequest()
+                authRequest.provider = .linkedin
+                authRequest.portal = self.portal
+                authRequest.accessToken = accessToken
+                
+                let hud = MBProgressHUD.showTopMost()
+                hud?.label.text = NSLocalizedString("Logging in", comment: "Caption of the process")
+                
+                ASCSignInController.shared.login(by: authRequest, in: self.navigationController) { success in
+                    if success {
+                        hud?.setSuccessState()
+                        hud?.hide(animated: true, afterDelay: 2)
+                        
+                        NotificationCenter.default.post(name: ASCConstants.Notifications.loginOnlyofficeCompleted, object: nil)
+                        
+                        self.dismiss(animated: true, completion: nil)
+                    } else {
+                        hud?.hide(animated: true)
+                        UIAlertController.showError(in: self, message: NSLocalizedString("User authentication failed", comment: ""))
+                    }
+                }
+            } else if let error = info["error"] as? String {
+                UIAlertController.showError(in: self, message: error)
+            }
+        }
+        oauth2VC.delegate = linkedinController
+        oauth2VC.title = "Linkedin"
+        
+        navigationController?.pushViewController(oauth2VC, animated: true)
     }
     
     @IBAction func onFacebookLogin(_ sender: UIButton) {
