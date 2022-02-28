@@ -29,7 +29,8 @@ class ASCLinkedinSignInController: ASCConnectStorageOAuth2Delegate {
         ]
         
         let authRequest = "https://www.linkedin.com/oauth/v2/authorization?\(parameters.stringAsHttpParameters())"
-        let urlRequest = URLRequest(url: URL(string: authRequest)!)
+        guard let url = URL(string: authRequest) else { return }
+        let urlRequest = URLRequest(url: url)
 
         controller.load(request: urlRequest)
     }
@@ -40,7 +41,7 @@ class ASCLinkedinSignInController: ASCConnectStorageOAuth2Delegate {
         if let errorCode = controller.getQueryStringParameter(url: request, param: "error") {
             log.error("code: \(errorCode)")
             controller.complation?([
-                "error": String(format: NSLocalizedString("Please retry. \n\n If the problem persists contact us and mention this error code: Microsoft - %@", comment: ""), errorCode)
+                "error": String(format: NSLocalizedString("Please retry. \n\n If the problem persists contact us and mention this error code: Linkedin - %@", comment: ""), errorCode)
             ])
             return false
         }
