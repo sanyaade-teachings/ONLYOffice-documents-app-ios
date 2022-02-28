@@ -178,6 +178,11 @@ class ASCConstants {
         struct Facebook {
             static let appId: String        = ASCConstants.internalConstants["FacebookAppID"] as? String ?? ""
         }
+        
+        struct Twitter {
+            static let clientId: String     = ASCConstants.internalConstants["TwitterClientId"] as? String ?? ""
+            static let redirectUri: String  = ASCConstants.internalConstants["TwitterRedirectUrl"] as? String ?? ""
+        }
     }
 
     struct Size {

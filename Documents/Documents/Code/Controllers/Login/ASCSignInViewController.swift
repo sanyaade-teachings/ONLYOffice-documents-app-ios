@@ -239,6 +239,49 @@ class ASCSignInViewController: ASCBaseViewController {
         }
     }
     
+    @IBAction func onTwitterLogin(_ sender: UIButton) {
+        view.endEditing(true)
+        
+        let oauth2VC = ASCConnectStorageOAuth2ViewController.instantiate(from: Storyboard.connectStorage)
+        let twitterController = ASCTwitterSignInController()
+        twitterController.clientId = ASCConstants.Clouds.Twitter.clientId
+        twitterController.redirectUrl = ASCConstants.Clouds.Twitter.redirectUri
+        oauth2VC.responseType = .code
+        oauth2VC.complation = { [weak self] info in
+            guard let self = self else { return }
+            if let accessToken = info["token"] as? String {
+                let authRequest = OnlyofficeAuthRequest()
+                authRequest.provider = .linkedin
+                authRequest.portal = self.portal
+                authRequest.accessToken = accessToken
+                
+                let hud = MBProgressHUD.showTopMost()
+                hud?.label.text = NSLocalizedString("Logging in", comment: "Caption of the process")
+                
+                ASCSignInController.shared.login(by: authRequest, in: self.navigationController) { success in
+                    if success {
+                        hud?.setSuccessState()
+                        hud?.hide(animated: true, afterDelay: 2)
+                        
+                        NotificationCenter.default.post(name: ASCConstants.Notifications.loginOnlyofficeCompleted, object: nil)
+                        
+                        self.dismiss(animated: true, completion: nil)
+                    } else {
+                        hud?.hide(animated: true)
+                        UIAlertController.showError(in: self, message: NSLocalizedString("User authentication failed", comment: ""))
+                    }
+                }
+            } else if let error = info["error"] as? String {
+                UIAlertController.showError(in: self, message: error)
+            }
+        }
+        oauth2VC.delegate = twitterController
+        oauth2VC.title = "Twitter"
+        
+        navigationController?.pushViewController(oauth2VC, animated: true)
+
+    }
+    
     @IBAction func onFacebookLogin(_ sender: UIButton) {
         view.endEditing(true)
         

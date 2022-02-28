@@ -605,6 +605,9 @@
                                                 <integer key="value" value="24"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="onTwitterLogin:" destination="UW0-fu-TUa" eventType="touchUpInside" id="36R-3r-5qb"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -1546,15 +1549,12 @@ Authentication</string>
     </scenes>
     <designables>
         <designable name="ciJ-Qc-kAx">
-            <size key="intrinsicContentSize" width="160.66666666666666" height="34"/>
-        </designable>
-        <designable name="lTc-Mg-8ay">
-            <size key="intrinsicContentSize" width="62.666666666666664" height="34"/>
-        </designable>
-        <designable name="q8z-Ru-xxV">
             <size key="intrinsicContentSize" width="280" height="39.220703125"/>
         </designable>
-        <designable name="xUt-UA-mBW">
+        <designable name="lTc-Mg-8ay">
+            <size key="intrinsicContentSize" width="280" height="39.220703125"/>
+        </designable>
+        <designable name="q8z-Ru-xxV">
             <size key="intrinsicContentSize" width="280" height="39.220703125"/>
         </designable>
     </designables>
