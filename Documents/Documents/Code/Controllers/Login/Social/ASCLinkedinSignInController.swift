@@ -49,7 +49,7 @@ class ASCLinkedinSignInController: ASCConnectStorageOAuth2Delegate {
         if let redirectUrl = redirectUrl, request.contains(redirectUrl),
            let code = controller.getQueryStringParameter(url: request, param: "code") {
             controller.complation?([
-                "token": code
+                "code": code
             ])
             return false
         }
