@@ -1259,7 +1259,11 @@ class ASCDocumentsViewController: ASCBaseTableViewController, UIGestureRecognize
             } else {
                 if let folder = folder, let provider = provider {
                     if folder.rootFolderType == .deviceTrash || folder.rootFolderType == .onlyofficeTrash {
-                        localEmptyView?.type = .trash
+                        if OnlyofficeApiClient.shared.serverVersion?.docSpace != nil {
+                            localEmptyView?.type = .trashDocspace
+                        } else {
+                            localEmptyView?.type = .trash
+                        }
                     } else if provider.type == .local {
                         localEmptyView?.type = .local
                     } else if folder.rootFolderType == .onlyofficeRoomShared {

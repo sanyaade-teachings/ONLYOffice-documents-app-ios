@@ -13,6 +13,7 @@ class ASCDocumentsEmptyView: UIView {
         case `default`
         case local
         case trash
+        case trashDocspace
         case cloud
         case cloudNoPermissions
         case docspace
@@ -136,6 +137,11 @@ class ASCDocumentsEmptyView: UIView {
             imageView?.image = Asset.Images.emptyTrash.image
             titleLabel?.text = NSLocalizedString("The trash is empty", comment: "")
             subtitleLabel?.text = NSLocalizedString("The deleted files go to the trash. You can either restore or delete them forever.", comment: "")
+            actionButton?.removeFromSuperview()
+        case .trashDocspace:
+            imageView?.image = Asset.Images.emptyTrash.image
+            titleLabel?.text = NSLocalizedString("No docs here yet", comment: "")
+            subtitleLabel?.text = NSLocalizedString("All deleted files are moved to 'Trash'. Restore files deleted by mistake or delete them permanently. Files in 'Trash' are automatically deleted after 30 days. Please note, that the files deleted from the 'Trash' cannot be restored any longer.", comment: "")
             actionButton?.removeFromSuperview()
         case .cloudNoPermissions:
             imageView?.image = Asset.Images.emptyFolder.image
