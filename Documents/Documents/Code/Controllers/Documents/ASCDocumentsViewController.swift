@@ -3263,6 +3263,21 @@ extension ASCDocumentsViewController {
         return UITableViewCell()
     }
 
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if let folder = folder, folder.rootFolderType == .deviceTrash || folder.rootFolderType == .onlyofficeTrash,
+           OnlyofficeApiClient.shared.serverVersion?.docSpace != nil
+        {
+            let headerView = CenteredLabelHeaderView()
+            headerView.configure(with: NSLocalizedString("Items in Trash are automatically deleted after \n30 days", comment: ""), backgroundColor: view.backgroundColor)
+            return headerView
+        }
+        return nil
+    }
+
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        44
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.isEditing {
             updateSelectedItems(indexPath: indexPath)
