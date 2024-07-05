@@ -15,6 +15,7 @@ import Siren
 import SwiftyDropbox
 import UIKit
 import UserNotifications
+import YandexLoginSDK
 #if DEBUG
     import Atlantis
 #endif
@@ -57,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             DropboxClientsManager.setupWithAppKey(ASCConstants.Clouds.Dropbox.appId)
 
+            ASCYandexManager.activateYandexLoginSDK()
             // Initialize searchable promo
             searchablePromoInit()
         #endif
@@ -97,6 +99,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             log.debug("Selected Identifier: \(selectedIdentifier)")
         }
 
+        ASCYandexManager.handleUserActivity(userActivity: userActivity)
+
         return true
     }
 
@@ -124,6 +128,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+
+        ASCYandexManager.handleURL(url: url)
 
         if url.isFileURL {
             return ASCViewControllerManager.shared.route(by: url, options: options)
